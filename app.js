@@ -1,9 +1,14 @@
 $(function () {
 
-  var $fileBtn = $('#fileBtn');
+  var $submitBtn = $('#submitBtn');
 
-  $fileBtn.click(function () {
+
+  var newBank = [];
+  $submitBtn.click(function () {
+    //Grabbing the file that the user inputs
     var selectedFile = $('#csv')[0].files[0];
+
+    //Papa Parse function scanning CSV file
     Papa.parse(selectedFile, {
     	delimiter: "",	// auto-detect
     	newline: "",	// auto-detect
@@ -31,10 +36,15 @@ $(function () {
             // console.log(noSpaces);
           }
         }
-        console.log(results);
+        newBank.push(results);
+        console.log(newBank);
       }
     });
+
+    this.form.reset()
   });
+
+
 
 
 
