@@ -33,7 +33,7 @@ $(function () {
           for (var key in results.data[i]) {
             var noSpaces;
             (typeof key === 'string') ? noSpaces = key.trim() : key;
-            // console.log(noSpaces);
+            console.log(noSpaces);
           }
         }
         newBank.push(results);
@@ -53,3 +53,12 @@ $(function () {
 
 
 })
+
+
+
+
+
+
+//function that takes the data and creates a table
+//need to have a show trends button for each table
+//
