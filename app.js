@@ -1,5 +1,7 @@
 $(function () {
 
+  $( "#table-collection" ).tabs();
+
   var $submitBtn = $('#submitBtn');
 
 
@@ -70,7 +72,7 @@ $(function () {
     var $unorderedTabs = $('#table-tabs');
     var $newListItem = $('<li>');
     var $tabbedLink = $('<a href="#' + nickname + '">' + nickname + '</a>');
-    var $divForTable = $('<div id="' + nickname + '"></div>')
+    var $divForTable = $('<div id="' + nickname + ' tabs"></div>')
 
 
     entry.data.forEach(function (charge) {
