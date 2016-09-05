@@ -89,7 +89,7 @@ function createTable (entry) {
 
       //defining boolean statements for multiple CSV files
       var descriptionBoolean = lowerKey.includes('description') && !lowerKey.includes('raw')
-      var amountBoolean = lowerKey.includes('amount')
+      var amountBoolean = lowerKey.includes('amount') || lowerKey.includes('debit');
 
       if (amountBoolean) {
         var $newAmount = $('<td>' + charge[key] + '</td>');
