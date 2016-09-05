@@ -78,6 +78,10 @@ function createTable (entry) {
   var $priceHeader = $('<th>Price</th>');
   var $tableBody = $('<tbody>')
 
+  //Building collapsible entry
+  var $newListItem = $('<li>');
+  var $newHeader = $('<div class="collapsible-header">');
+  var $newBody = $('<div class="collapsible-body">')
 
 
   entry.data.forEach(function (charge) {
@@ -106,11 +110,16 @@ function createTable (entry) {
   })
 
   //Appending table to each other and then HTML
+
   $tableRow.append($descriptionHeader);
   $tableRow.append($priceHeader);
   $tableHead.append($tableRow);
   $newBankTable.append($tableHead);
   $newBankTable.append($tableBody);
-  $tableCollection.append($newBankTable);
+
+  $newListItem.append($newHeader);
+  $newBody.append($newBankTable);
+  $newListItem.append($newBody);
+  $tableCollection.append($newListItem);
 
 }
