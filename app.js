@@ -67,9 +67,10 @@ $(function () {
     var $tableBody = $('<tbody>')
 
     //Building collapsible entry
+    var $unorderedTabs = $('#table-tabs');
     var $newListItem = $('<li>');
-    var $newHeader = $('<div class="collapsible-header">' + '<h3>' + nickname + '</h3>' + '</div>');
-    var $newBody = $('<div class="collapsible-body">')
+    var $tabbedLink = $('<a href="#' + nickname + '">' + nickname + '</a>');
+    var $divForTable = $('<div id="' + nickname + '"></div>')
 
 
     entry.data.forEach(function (charge) {
@@ -97,19 +98,18 @@ $(function () {
       $tableBody.append($newRow);
     })
 
-    //Appending table to each other and then HTML
-
+    //Appending table together
     $tableRow.append($descriptionHeader);
     $tableRow.append($priceHeader);
     $tableHead.append($tableRow);
     $newBankTable.append($tableHead);
     $newBankTable.append($tableBody);
 
-    $newListItem.append($newHeader);
-    $newBody.append($newBankTable);
-    $newListItem.append($newBody);
-    $tableCollection.append($newListItem);
-
+    //Appending this table to the HTML
+    $newListItem.append($tabbedLink);
+    $unorderedTabs.append($newListItem);
+    $divForTable.append($newBankTable);
+    $tableCollection.append($divForTable);
   }
 
 
