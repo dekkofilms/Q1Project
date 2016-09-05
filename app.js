@@ -14,7 +14,7 @@ $(function () {
     	newline: "",	// auto-detect
     	header: true,
     	dynamicTyping: false,
-    	preview: 2,
+    	preview: 0,
     	encoding: "",
     	worker: false,
     	comments: false,
@@ -33,11 +33,15 @@ $(function () {
           for (var key in results.data[i]) {
             var noSpaces;
             (typeof key === 'string') ? noSpaces = key.trim() : key;
-            console.log(noSpaces);
+            // console.log(noSpaces);
           }
         }
         newBank.push(results);
-        console.log(newBank);
+        // console.log(newBank.pop());
+
+        var latestEntry = newBank.pop();
+
+        createTable(latestEntry);
       }
     });
 
@@ -62,3 +66,51 @@ $(function () {
 //function that takes the data and creates a table
 //need to have a show trends button for each table
 //
+
+
+function createTable (entry) {
+  //Setting the base for the table
+  var $tableCollection = $('#table-collection');
+  var $newBankTable = $('<table>');
+  var $tableHead = $('<thead>');
+  var $tableRow = $('<tr>');
+  var $descriptionHeader = $('<th>Description</th>');
+  var $priceHeader = $('<th>Price</th>');
+  var $tableBody = $('<tbody>')
+
+
+
+  entry.data.forEach(function (charge) {
+    //Building table body base
+    var $newRow = $('<tr>');
+
+    for (var key in charge) {
+      var lowerKey = key.toLowerCase();
+
+      //defining boolean statements for multiple CSV files
+      var descriptionBoolean = lowerKey.includes('description') && !lowerKey.includes('raw')
+      var amountBoolean = lowerKey.includes('amount')
+
+      if (amountBoolean) {
+        var $newAmount = $('<td>' + charge[key] + '</td>');
+        // console.log(charge[key]);
+
+      } else if (descriptionBoolean) {
+        var $newDescription = $('<td>' + charge[key] + '</td>');
+        // console.log(charge[key]);
+      }
+    }
+    $newRow.append($newDescription);
+    $newRow.append($newAmount);
+    $tableBody.append($newRow);
+  })
+
+  //Appending table to each other and then HTML
+  $tableRow.append($descriptionHeader);
+  $tableRow.append($priceHeader);
+  $tableHead.append($tableRow);
+  $newBankTable.append($tableHead);
+  $newBankTable.append($tableBody);
+  $tableCollection.append($newBankTable);
+
+}
