@@ -3,6 +3,7 @@ $(function () {
   var $submitBtn = $('#submitBtn');
 
 
+
   var newBank = [];
   var nickname;
   $submitBtn.click(function () {
@@ -47,6 +48,7 @@ $(function () {
         var latestEntry = newBank.pop();
 
         createTable(latestEntry);
+        $("#fixedHead").freezeHeader({ 'height': '300px' });
       }
     });
 
@@ -57,7 +59,6 @@ $(function () {
 
 
   function createTable (entry) {
-    // $("#fixedHead").freezeHeader();
     //Setting the base for the table
     var $tableCollection = $('#table-collection');
     var $newBankTable = $('<table id="fixedHead">');
@@ -65,6 +66,7 @@ $(function () {
     var $tableRow = $('<tr>');
     var $dateHeader = $('<th>Date</th>');
     var $descriptionHeader = $('<th>Description</th>');
+    var $categoryHeader = $('<th>Category</th>');
     var $priceHeader = $('<th>Price</th>');
     var $tableBody = $('<tbody>')
 
@@ -86,7 +88,8 @@ $(function () {
         //Defining boolean statements for multiple CSV files
         var descriptionBoolean = lowerKey.includes('description') && !lowerKey.includes('raw')
         var amountBoolean = lowerKey.includes('amount') || lowerKey.includes('debit');
-        var dateBoolean = lowerKey.includes('date')
+        var dateBoolean = lowerKey.includes('date');
+        var categoryBoolean = lowerKey.includes('category');
 
         if (amountBoolean) {
           var $newAmount = $('<td>' + charge[key] + '</td>');
@@ -95,10 +98,13 @@ $(function () {
           var $newDescription = $('<td>' + charge[key] + '</td>');
         } else if (dateBoolean) {
           var $newDate = $('<td>' + charge[key] + '</td>');
+        } else if (categoryBoolean) {
+          var $newCategory = $('<td>' + charge[key] + '</td>');
         }
       }
       $newRow.append($newDate);
       $newRow.append($newDescription);
+      $newRow.append($newCategory);
       $newRow.append($newAmount);
       $tableBody.append($newRow);
     })
@@ -106,6 +112,7 @@ $(function () {
     //Appending table together]
     $tableRow.append($dateHeader);
     $tableRow.append($descriptionHeader);
+    $tableRow.append($categoryHeader);
     $tableRow.append($priceHeader);
     $tableHead.append($tableRow);
     $newBankTable.append($tableHead);
@@ -116,6 +123,7 @@ $(function () {
     $unorderedTabs.append($newListItem);
     $divForTable.append($newBankTable);
     $tableCollection.append($divForTable);
+
   }
 
   //Event listener for the tabs inside of the table
