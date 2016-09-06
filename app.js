@@ -1,7 +1,5 @@
 $(function () {
 
-  $( "#table-collection" ).tabs();
-
   var $submitBtn = $('#submitBtn');
 
 
@@ -59,20 +57,22 @@ $(function () {
 
 
   function createTable (entry) {
+    // $("#fixedHead").freezeHeader();
     //Setting the base for the table
     var $tableCollection = $('#table-collection');
-    var $newBankTable = $('<table>');
+    var $newBankTable = $('<table id="fixedHead">');
     var $tableHead = $('<thead>');
     var $tableRow = $('<tr>');
+    var $dateHeader = $('<th>Date</th>');
     var $descriptionHeader = $('<th>Description</th>');
     var $priceHeader = $('<th>Price</th>');
     var $tableBody = $('<tbody>')
 
     //Building collapsible entry
     var $unorderedTabs = $('#table-tabs');
-    var $newListItem = $('<li id="tabs">');
+    var $newListItem = $('<li class="tab" id="tabs">');
     var $tabbedLink = $('<a href="#' + nickname + '">' + nickname + '</a>');
-    var $divForTable = $('<div id="' + nickname + '"></div>')
+    var $divForTable = $('<div id="' + nickname + '" class="overflow"></div>')
 
 
     entry.data.forEach(function (charge) {
@@ -86,20 +86,25 @@ $(function () {
         //Defining boolean statements for multiple CSV files
         var descriptionBoolean = lowerKey.includes('description') && !lowerKey.includes('raw')
         var amountBoolean = lowerKey.includes('amount') || lowerKey.includes('debit');
+        var dateBoolean = lowerKey.includes('date')
 
         if (amountBoolean) {
           var $newAmount = $('<td>' + charge[key] + '</td>');
 
         } else if (descriptionBoolean) {
           var $newDescription = $('<td>' + charge[key] + '</td>');
+        } else if (dateBoolean) {
+          var $newDate = $('<td>' + charge[key] + '</td>');
         }
       }
+      $newRow.append($newDate);
       $newRow.append($newDescription);
       $newRow.append($newAmount);
       $tableBody.append($newRow);
     })
 
-    //Appending table together
+    //Appending table together]
+    $tableRow.append($dateHeader);
     $tableRow.append($descriptionHeader);
     $tableRow.append($priceHeader);
     $tableHead.append($tableRow);
@@ -119,6 +124,7 @@ $(function () {
       $(this).addClass('active');
   });
 
+  $( "#table-collection" ).tabs();
 
 
 
