@@ -79,6 +79,7 @@ $(function () {
       //Need a row for each of the charges
       var $newRow = $('<tr>');
 
+      //Looping through each property in the charge
       for (var key in charge) {
         var lowerKey = key.toLowerCase();
 
@@ -88,11 +89,9 @@ $(function () {
 
         if (amountBoolean) {
           var $newAmount = $('<td>' + charge[key] + '</td>');
-          // console.log(charge[key]);
 
         } else if (descriptionBoolean) {
           var $newDescription = $('<td>' + charge[key] + '</td>');
-          // console.log(charge[key]);
         }
       }
       $newRow.append($newDescription);
@@ -115,17 +114,10 @@ $(function () {
   }
 
   //Event listener for the tabs inside of the table
-  $('ul').click(function (event) {
-    var targetListItem = $(event.target.parentNode);
-    // console.log(targetListItem);
-    console.log(targetListItem.not(targetListItem));
-    // targetListItem.not(this).each(function(){
-    //   console.log(this);
-    //   $(this).removeClass('active');
-    //  });
-    // targetListItem.addClass('active')
-  })
-
+  $(document).on("click", 'ul li', function(){
+      $('ul li').removeClass('active');
+      $(this).addClass('active');
+  });
 
 
 
