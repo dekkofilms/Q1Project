@@ -70,19 +70,19 @@ $(function () {
 
     //Building collapsible entry
     var $unorderedTabs = $('#table-tabs');
-    var $newListItem = $('<li>');
+    var $newListItem = $('<li id="tabs">');
     var $tabbedLink = $('<a href="#' + nickname + '">' + nickname + '</a>');
-    var $divForTable = $('<div id="' + nickname + ' tabs"></div>')
+    var $divForTable = $('<div id="' + nickname + '"></div>')
 
 
     entry.data.forEach(function (charge) {
-      //Building table body base
+      //Need a row for each of the charges
       var $newRow = $('<tr>');
 
       for (var key in charge) {
         var lowerKey = key.toLowerCase();
 
-        //defining boolean statements for multiple CSV files
+        //Defining boolean statements for multiple CSV files
         var descriptionBoolean = lowerKey.includes('description') && !lowerKey.includes('raw')
         var amountBoolean = lowerKey.includes('amount') || lowerKey.includes('debit');
 
@@ -114,17 +114,22 @@ $(function () {
     $tableCollection.append($divForTable);
   }
 
+  //Event listener for the tabs inside of the table
+  $('ul').click(function (event) {
+    var targetListItem = $(event.target.parentNode);
+    // console.log(targetListItem);
+    console.log(targetListItem.not(targetListItem));
+    // targetListItem.not(this).each(function(){
+    //   console.log(this);
+    //   $(this).removeClass('active');
+    //  });
+    // targetListItem.addClass('active')
+  })
+
 
 
 
 
 })
-
-
-
-
-
-
-//function that takes the data and creates a table
 //need to have a show trends button for each table
 //
