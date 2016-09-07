@@ -28,6 +28,7 @@
  color: #000;
 }
 
-/*thead {
-  background-color: white;
-}*/
+.overflow {
+  height: 500px;
+  overflow-y: auto;
+}

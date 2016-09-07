@@ -1,7 +1,7 @@
 $(function () {
 
-  var individualCharge;
-
+  var latestEntry;
+  var myCategories = {};
   var $submitBtn = $('#submitBtn');
 
   var newBank = [];
@@ -43,16 +43,19 @@ $(function () {
         }
         newBank.push(results);
         // console.log(newBank.pop());
-
         var latestEntry = newBank.pop();
 
         createTable(latestEntry);
+
+        console.log(myCategories['Gas/Automotive']);
       }
     });
 
     this.form.reset()
   });
 
+  var $showTrendBtn = $('<a class="waves-effect waves-light btn">Show Trends</a>');
+  $('#show-trend').append($showTrendBtn);
 
 
 
@@ -80,8 +83,8 @@ $(function () {
       var $newRow = $('<tr>');
 
       //Looping through each property in the charge
+      var selectedOption;
       for (var key in charge) {
-        individualCharge = charge[key]
         var lowerKey = key.toLowerCase();
 
         //Defining boolean statements for multiple CSV files
@@ -92,39 +95,49 @@ $(function () {
 
         if (amountBoolean) {
           var $newAmount = $('<td>' + charge[key] + '</td>');
-
+          // console.log('inside',dollaAmount);
         } else if (descriptionBoolean) {
           var $newDescription = $('<td>' + charge[key] + '</td>');
         } else if (dateBoolean) {
           var $newDate = $('<td>' + charge[key] + '</td>');
         } else if (categoryBoolean) {
+          var categoryId = initialCategory(charge[key]);
           //Creating Dropdown elements
-          var $categoryDiv = $('<div class="input-field col s12" id="catDiv">');
+          var $categoryDiv = $('<div class="input-field col s12" class="catDiv">');
           var $select = $('<select>');
-          var $food = $('<option value="food" id="Food">Food</option>');
-          var $gas = $('<option value="gas" id="Gas/Automotive" selected>Gas/Automotive</option>');
-          var $income = $('<option value="income" id="Income">Income</option>');
-          var $entertainment = $('<option value="entertainment" id="Entertainment">Entertainment</option>');
-          var $education = $('<option value="education" id="Education">Education</option>');
+          var $food = $('<option value="food" class="Food">Food</option>');
+          var $gas = $('<option value="gas" class="Gas/Automotive">Gas/Automotive</option>');
+          var $income = $('<option value="income" class="Income">Income</option>');
+          var $entertainment = $('<option value="entertainment" class="Entertainment">Entertainment</option>');
+          var $education = $('<option value="education" class="Education">Education</option>');
+          var $other = $('<option value="other" class="Other">Other</option>');
           var $newCategory = $('<td>');
 
+          // var match = $('#catDiv option:contains("' + categoryId + '")');
           //Appending dropdown elements
           $select.append($food);
           $select.append($gas);
           $select.append($income);
           $select.append($entertainment);
           $select.append($education);
+          $select.append($other);
           $categoryDiv.append($select);
           $newCategory.append($categoryDiv);
 
-
-
+          var match = $select.children('.' + categoryId);
+          match.attr('selected', 'selected');
         }
       }
+
       $newRow.append($newDate);
       $newRow.append($newDescription);
       $newRow.append($newCategory);
       $newRow.append($newAmount);
+
+      // get the inner html for cate
+      var amount = parseInt($newAmount.html());
+      myCategories[categoryId] = amount + amount;
+      // console.log(myCategories);
       $tableBody.append($newRow);
     })
 
@@ -145,23 +158,26 @@ $(function () {
 
     function initialCategory (value) {
       var lowerCategory = value.toLowerCase();
+      var foundCategory = false;
 
       for (var id in categoryObj) {
         var categoryArray = categoryObj[id];
 
         categoryArray.forEach(function (synonym) {
           if (lowerCategory.includes(synonym)) {
-            console.log(id);
-            var match = $('#catDiv option:contains("' + id + '")');
-            console.log(match);
-            // $income.attr('selected', 'selected')
+            myCategories[id] = 0;
+            foundCategory = id;
+            return;
           }
         })
       }
+
+      return foundCategory;
     }
 
-    // initialCategory(charge[key]);
+
     $('select').material_select();
+
   }
 
   //Event listener for the tabs inside of the table
@@ -172,8 +188,48 @@ $(function () {
 
   $( "#table-collection" ).tabs();
 
+  // console.log(myCategories);
 
-
+  $(document).on("click", '#show-trend', function(){
+      var newCanvas = $('#show-trend-results')
+      var showResults = new Chart(newCanvas, {
+                        type: 'horizontalBar',
+                        data: {
+                            labels: ["Food", "Gas/Automotive", "Income", "Entertainment", "Education"],
+                            datasets: [{
+                                label: 'Money Trends',
+                                data: [Math.abs(myCategories.Food), Math.abs(myCategories['Gas/Automotive']), Math.abs(myCategories.Income), Math.abs(myCategories.Entertainment), Math.abs(myCategories.Education)],
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255,99,132,1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero:true
+                                    }
+                                }]
+                            }
+                        },
+                        responsive : true
+                    });
+  });
 
 })
 
@@ -183,7 +239,8 @@ var categoryObj = {
   'Gas/Automotive' : ['gas', 'automotive', 'auto'],
   'Income' : ['paycheck', 'income', 'investment', 'financial', 'money', 'reimbursement'],
   'Entertainment' : ['arts', 'music', 'movie', 'culture', 'art'],
-  'Education' : []
+  'Education' : ['education'],
+  'Other' : []
 }
 
 //append to an invisible table and then siphon through and change the categories
