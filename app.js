@@ -102,7 +102,7 @@ $(function () {
           var $categoryDiv = $('<div class="input-field col s12" id="catDiv">');
           var $select = $('<select>');
           var $food = $('<option value="food" id="Food">Food</option>');
-          var $gas = $('<option value="gas" id="Gas/Automotive">Gas/Automotive</option>');
+          var $gas = $('<option value="gas" id="Gas/Automotive" selected>Gas/Automotive</option>');
           var $income = $('<option value="income" id="Income">Income</option>');
           var $entertainment = $('<option value="entertainment" id="Entertainment">Entertainment</option>');
           var $education = $('<option value="education" id="Education">Education</option>');
@@ -160,7 +160,7 @@ $(function () {
       }
     }
 
-    initialCategory(charge[key]);
+    // initialCategory(charge[key]);
     $('select').material_select();
   }
 
