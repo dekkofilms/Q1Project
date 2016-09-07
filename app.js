@@ -34,19 +34,11 @@ $(function () {
     	withCredentials: undefined,
 	    complete: function(results) {
         var totalTransactions = results.data.length;
-        for (var i = 0; i < totalTransactions; i++) {
-          for (var key in results.data[i]) {
-            var noSpaces;
-            (typeof key === 'string') ? noSpaces = key.trim() : key;
-            // console.log(noSpaces);
-          }
-        }
         newBank.push(results);
         // console.log(newBank.pop());
         var latestEntry = newBank.pop();
 
         createTable(latestEntry);
-        
       }
     });
 
@@ -105,14 +97,13 @@ $(function () {
           var $categoryDiv = $('<div class="input-field col s12" class="catDiv">');
           var $select = $('<select>');
           var $food = $('<option value="food" class="Food">Food</option>');
-          var $gas = $('<option value="gas" class="Gas/Automotive">Gas/Automotive</option>');
+          var $gas = $('<option value="gas" class="Auto">Auto</option>');
           var $income = $('<option value="income" class="Income">Income</option>');
           var $entertainment = $('<option value="entertainment" class="Entertainment">Entertainment</option>');
           var $education = $('<option value="education" class="Education">Education</option>');
           var $other = $('<option value="other" class="Other">Other</option>');
           var $newCategory = $('<td>');
 
-          // var match = $('#catDiv option:contains("' + categoryId + '")');
           //Appending dropdown elements
           $select.append($food);
           $select.append($gas);
@@ -133,8 +124,10 @@ $(function () {
       $newRow.append($newCategory);
       $newRow.append($newAmount);
 
-      // get the inner html for cate
+      // console.log($newAmount.html());
+      // get the inner html for category
       var amount = parseInt($newAmount.html());
+
       myCategories[categoryId] = amount + amount;
       // console.log(myCategories);
       $tableBody.append($newRow);
@@ -194,25 +187,23 @@ $(function () {
       var showResults = new Chart(newCanvas, {
                         type: 'horizontalBar',
                         data: {
-                            labels: ["Food", "Gas/Automotive", "Income", "Entertainment", "Education"],
+                            labels: ["Food", "Auto", "Income", "Entertainment", "Education"],
                             datasets: [{
                                 label: 'Money Trends',
-                                data: [Math.abs(myCategories.Food), Math.abs(myCategories['Gas/Automotive']), Math.abs(myCategories.Income), Math.abs(myCategories.Entertainment), Math.abs(myCategories.Education)],
+                                data: [Math.abs(myCategories.Food), Math.abs(myCategories.Auto), Math.abs(myCategories.Income), Math.abs(myCategories.Entertainment), Math.abs(myCategories.Education)],
                                 backgroundColor: [
                                     'rgba(255, 99, 132, 0.2)',
                                     'rgba(54, 162, 235, 0.2)',
                                     'rgba(255, 206, 86, 0.2)',
                                     'rgba(75, 192, 192, 0.2)',
                                     'rgba(153, 102, 255, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)'
                                 ],
                                 borderColor: [
-                                    'rgba(255,99,132,1)',
+                                    'rgba(255, 99, 132, 1)',
                                     'rgba(54, 162, 235, 1)',
                                     'rgba(255, 206, 86, 1)',
                                     'rgba(75, 192, 192, 1)',
                                     'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)'
                                 ],
                                 borderWidth: 1
                             }]
@@ -235,7 +226,7 @@ $(function () {
 //Object for the categories
 var categoryObj = {
   'Food' : ['dining', 'food', 'fast food', 'restaurant', 'food & drink'],
-  'Gas/Automotive' : ['gas', 'automotive', 'auto'],
+  'Auto' : ['gas', 'automotive', 'auto'],
   'Income' : ['paycheck', 'income', 'investment', 'financial', 'money', 'reimbursement'],
   'Entertainment' : ['arts', 'music', 'movie', 'culture', 'art'],
   'Education' : ['education'],
