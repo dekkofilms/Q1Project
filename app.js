@@ -19,7 +19,7 @@ $(function () {
     	newline: "",	// auto-detect
     	header: true,
     	dynamicTyping: false,
-    	preview: 10,
+    	preview: 0,
     	encoding: "",
     	worker: false,
     	comments: false,
@@ -46,8 +46,7 @@ $(function () {
         var latestEntry = newBank.pop();
 
         createTable(latestEntry);
-
-        console.log(myCategories['Gas/Automotive']);
+        
       }
     });
 
