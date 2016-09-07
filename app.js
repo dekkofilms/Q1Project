@@ -1,15 +1,14 @@
 $(function () {
 
+  var individualCharge;
+
   var $submitBtn = $('#submitBtn');
-
-
 
   var newBank = [];
   var nickname;
   $submitBtn.click(function () {
     //Grabbing nickname
     nickname = $('[name="nickname"]').val();
-    console.log(nickname);
 
     //Grabbing the file that the user inputs
     var selectedFile = $('#csv')[0].files[0];
@@ -20,7 +19,7 @@ $(function () {
     	newline: "",	// auto-detect
     	header: true,
     	dynamicTyping: false,
-    	preview: 0,
+    	preview: 10,
     	encoding: "",
     	worker: false,
     	comments: false,
@@ -48,7 +47,6 @@ $(function () {
         var latestEntry = newBank.pop();
 
         createTable(latestEntry);
-        $("#fixedHead").freezeHeader({ 'height': '300px' });
       }
     });
 
@@ -61,7 +59,7 @@ $(function () {
   function createTable (entry) {
     //Setting the base for the table
     var $tableCollection = $('#table-collection');
-    var $newBankTable = $('<table id="fixedHead">');
+    var $newBankTable = $('<table class="fixedHead">');
     var $tableHead = $('<thead>');
     var $tableRow = $('<tr>');
     var $dateHeader = $('<th>Date</th>');
@@ -72,9 +70,9 @@ $(function () {
 
     //Building collapsible entry
     var $unorderedTabs = $('#table-tabs');
-    var $newListItem = $('<li class="tab" id="tabs">');
+    var $newListItem = $('<li class="tab">');
     var $tabbedLink = $('<a href="#' + nickname + '">' + nickname + '</a>');
-    var $divForTable = $('<div id="' + nickname + '" class="overflow"></div>')
+    var $divForTable = $('<div id="' + nickname + '" class="col s12 overflow"></div>')
 
 
     entry.data.forEach(function (charge) {
@@ -83,6 +81,7 @@ $(function () {
 
       //Looping through each property in the charge
       for (var key in charge) {
+        individualCharge = charge[key]
         var lowerKey = key.toLowerCase();
 
         //Defining boolean statements for multiple CSV files
@@ -99,7 +98,27 @@ $(function () {
         } else if (dateBoolean) {
           var $newDate = $('<td>' + charge[key] + '</td>');
         } else if (categoryBoolean) {
-          var $newCategory = $('<td>' + charge[key] + '</td>');
+          //Creating Dropdown elements
+          var $categoryDiv = $('<div class="input-field col s12" id="catDiv">');
+          var $select = $('<select>');
+          var $food = $('<option value="food" id="Food">Food</option>');
+          var $gas = $('<option value="gas" id="Gas/Automotive">Gas/Automotive</option>');
+          var $income = $('<option value="income" id="Income">Income</option>');
+          var $entertainment = $('<option value="entertainment" id="Entertainment">Entertainment</option>');
+          var $education = $('<option value="education" id="Education">Education</option>');
+          var $newCategory = $('<td>');
+
+          //Appending dropdown elements
+          $select.append($food);
+          $select.append($gas);
+          $select.append($income);
+          $select.append($entertainment);
+          $select.append($education);
+          $categoryDiv.append($select);
+          $newCategory.append($categoryDiv);
+
+
+
         }
       }
       $newRow.append($newDate);
@@ -124,6 +143,25 @@ $(function () {
     $divForTable.append($newBankTable);
     $tableCollection.append($divForTable);
 
+    function initialCategory (value) {
+      var lowerCategory = value.toLowerCase();
+
+      for (var id in categoryObj) {
+        var categoryArray = categoryObj[id];
+
+        categoryArray.forEach(function (synonym) {
+          if (lowerCategory.includes(synonym)) {
+            console.log(id);
+            var match = $('#catDiv option:contains("' + id + '")');
+            console.log(match);
+            // $income.attr('selected', 'selected')
+          }
+        })
+      }
+    }
+
+    initialCategory(charge[key]);
+    $('select').material_select();
   }
 
   //Event listener for the tabs inside of the table
@@ -136,6 +174,20 @@ $(function () {
 
 
 
+
 })
-//need to have a show trends button for each table
-//
+
+//Object for the categories
+var categoryObj = {
+  'Food' : ['dining', 'food', 'fast food', 'restaurant', 'food & drink'],
+  'Gas/Automotive' : ['gas', 'automotive', 'auto'],
+  'Income' : ['paycheck', 'income', 'investment', 'financial', 'money', 'reimbursement'],
+  'Entertainment' : ['arts', 'music', 'movie', 'culture', 'art'],
+  'Education' : []
+}
+
+//append to an invisible table and then siphon through and change the categories
+
+//show trends button for each bank account
+
+//start working on chart.js
