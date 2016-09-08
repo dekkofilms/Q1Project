@@ -48,7 +48,7 @@ $(function () {
 
         createTable(latestEntry);
 
-        $('li').last().addClass('active')
+        // $('li').last().addClass('active')
 
         // console.log(myCategories);
       }
@@ -74,7 +74,8 @@ $(function () {
     //Building collapsible entry
     var $unorderedTabs = $('#table-tabs');
     var $newListItem = $('<li class="tab col s3">');
-    var $tabbedLink = $('<a href="#' + nickname + '">' + nickname + '</a>');
+    //Need to create a safe guard if they try to name tables multiple names
+    var $tabbedLink = $('<a class="active" href="#' + nickname + '">' + nickname + '</a>');
     var $divForTable = $('<div id="' + nickname + '" class="overflow"></div>')
 
     var charge = entry.data;
