@@ -1,7 +1,5 @@
 $(function () {
 
-  // $('#table-collection').hide()
-
   var $showTrendBtn = $('<a class="waves-effect waves-light btn-flat">Show Trends</a>');
   $('#show-trend').append($showTrendBtn);
   $showTrendBtn.hide();
@@ -15,10 +13,19 @@ $(function () {
   var newBank = [];
   var nickname;
   $submitBtn.click(function () {
-    $showTrendBtn.show();
-
     //Grabbing nickname
     nickname = $('[name="nickname"]').val();
+
+    if (!nickname) {
+      alert('Please enter a nickname for your bank!');
+      return;
+    }
+
+    $('#preload').addClass('active');
+    // debugger
+    // $('#preload').removeClass('hide');
+    $showTrendBtn.show();
+
 
     //Grabbing the file that the user inputs
     var selectedFile = $('#csv')[0].files[0];
@@ -56,12 +63,13 @@ $(function () {
       }
     });
 
-    // $('#table-collection').removeClass('hide');
+    $('#table-collection').removeClass('hide');
     $showTrendBtn.show();
     this.form.reset()
   });
 
   function createTable (entry) {
+
     //Setting the base for the table
     var $tableCollection = $('#table-collection');
     var $newBankTable = $('<table>');
@@ -129,7 +137,6 @@ $(function () {
           var match = $select.children('.' + categoryId);
           match.attr('selected', 'selected');
           if ($newAmount) {
-            console.log(categoryId);
             $newAmount.addClass(categoryId + 'Amount')
           }
         }
@@ -185,7 +192,7 @@ $(function () {
 
 
     $('select').material_select();
-
+    $('#preload').removeClass('active');
   }
 
   //Event listener for the tabs inside of the table
@@ -197,51 +204,8 @@ $(function () {
   $('ul.tabs').tabs();
 
   $(document).on("click", '#show-trend', function(){
-    var foodArray = $('.FoodAmount').toArray();
-    console.log(foodArray);
-    foodArray.reduce(function (prev, curr) {
-      if (parseInt($(curr).html())) {
-        foodSum = prev
-        foodSum += parseInt($(curr).html());
-        console.log(foodSum);
-      }
-      return foodSum;
-    }, 0)
 
-    var autoArray = $('.AutoAmount').toArray();
-    autoArray.reduce(function (prev, curr) {
-      autoSum = prev
-      autoSum += parseInt($(curr).html());
-      return autoSum;
-    }, 0)
-
-    var incomeArray = $('.IncomeAmount').toArray();
-    incomeArray.reduce(function (prev, curr) {
-      incomeSum = prev
-      incomeSum += parseInt($(curr).html());
-      return incomeSum;
-    }, 0)
-
-    var entertainmentArray = $('.EntertainmentAmount').toArray();
-    entertainmentArray.reduce(function (prev, curr) {
-      entertainmentSum = prev
-      entertainmentSum += parseInt($(curr).html());
-      return entertainmentSum;
-    }, 0)
-
-    var educationArray = $('.EducationAmount').toArray();
-    educationArray.reduce(function (prev, curr) {
-      educationSum = prev
-      educationSum += parseInt($(curr).html());
-      return educationSum;
-    }, 0)
-
-    var otherArray = $('.OtherAmount').toArray();
-    otherArray.reduce(function (prev, curr) {
-      otherSum = prev
-      otherSum += parseInt($(curr).html());
-      return otherSum;
-    }, 0)
+    getSums();
 
     var newCanvas = $('#show-trend-results')
     var showResults = new Chart(newCanvas, {
@@ -283,6 +247,54 @@ $(function () {
                                         });
   });
 
+  function getSums () {
+
+    var foodArray = $('.FoodAmount').toArray();
+    foodArray.reduce(function (prev, curr) {
+      if (parseInt($(curr).html())) {
+        foodSum = prev
+        foodSum += parseInt($(curr).html());
+      }
+      return foodSum;
+    }, 0)
+
+    var autoArray = $('.AutoAmount').toArray();
+    autoArray.reduce(function (prev, curr) {
+      autoSum = prev
+      autoSum += parseInt($(curr).html());
+      return autoSum;
+    }, 0)
+
+    var incomeArray = $('.IncomeAmount').toArray();
+    incomeArray.reduce(function (prev, curr) {
+      incomeSum = prev
+      incomeSum += parseInt($(curr).html());
+      return incomeSum;
+    }, 0)
+
+    var entertainmentArray = $('.EntertainmentAmount').toArray();
+    entertainmentArray.reduce(function (prev, curr) {
+      entertainmentSum = prev
+      entertainmentSum += parseInt($(curr).html());
+      return entertainmentSum;
+    }, 0)
+
+    var educationArray = $('.EducationAmount').toArray();
+    educationArray.reduce(function (prev, curr) {
+      educationSum = prev
+      educationSum += parseInt($(curr).html());
+      return educationSum;
+    }, 0)
+
+    var otherArray = $('.OtherAmount').toArray();
+    otherArray.reduce(function (prev, curr) {
+      otherSum = prev
+      otherSum += parseInt($(curr).html());
+      return otherSum;
+    }, 0)
+
+  }
+
 })
 
 //Object for the categories
@@ -294,9 +306,3 @@ var categoryObj = {
   'Education' : ['education'],
   'Other' : []
 }
-
-//append to an invisible table and then siphon through and change the categories
-
-//show trends button for each bank account
-
-//start working on chart.js

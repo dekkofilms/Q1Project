@@ -48,3 +48,15 @@
     color: black;
     background-color: white;
 }
+
+h5 {
+  color: #ee6e73;
+}
+
+.btn:hover {
+  background-color: #ee6e73;
+}
+
+.btn:active {
+  background-color: white;
+}
