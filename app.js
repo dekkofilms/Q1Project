@@ -36,7 +36,7 @@ $(function () {
     	newline: "",	// auto-detect
     	header: true,
     	dynamicTyping: false,
-    	preview: 2,
+    	preview: 0,
     	encoding: "",
     	worker: false,
     	comments: false,
@@ -211,7 +211,7 @@ $(function () {
 
     getSums();
 
-    var newCanvas = $('#show-trend-results')
+    var newCanvas = $('#show-trend-results-pie')
     var showResults = new Chart(newCanvas, {
                                             type: 'pie',
                                             data: {
