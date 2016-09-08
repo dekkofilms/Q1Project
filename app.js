@@ -207,7 +207,7 @@ $(function () {
 
   $('ul.tabs').tabs();
 
-  $(document).on("click", '#show-trend', function(){
+  $(document).on('click', '#show-trend', function(){
 
     getSums();
 
