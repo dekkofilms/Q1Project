@@ -253,7 +253,7 @@ $(function () {
     foodArray.reduce(function (prev, curr) {
       if (parseInt($(curr).html())) {
         foodSum = prev
-        foodSum += parseInt($(curr).html());
+        foodSum += Math.abs(parseInt($(curr).html()));
       }
       return foodSum;
     }, 0)
@@ -261,35 +261,35 @@ $(function () {
     var autoArray = $('.AutoAmount').toArray();
     autoArray.reduce(function (prev, curr) {
       autoSum = prev
-      autoSum += parseInt($(curr).html());
+      autoSum += Math.abs(parseInt($(curr).html()));
       return autoSum;
     }, 0)
 
     var incomeArray = $('.IncomeAmount').toArray();
     incomeArray.reduce(function (prev, curr) {
       incomeSum = prev
-      incomeSum += parseInt($(curr).html());
+      incomeSum += Math.abs(parseInt($(curr).html()));
       return incomeSum;
     }, 0)
 
     var entertainmentArray = $('.EntertainmentAmount').toArray();
     entertainmentArray.reduce(function (prev, curr) {
       entertainmentSum = prev
-      entertainmentSum += parseInt($(curr).html());
+      entertainmentSum += Math.abs(parseInt($(curr).html()));
       return entertainmentSum;
     }, 0)
 
     var educationArray = $('.EducationAmount').toArray();
     educationArray.reduce(function (prev, curr) {
       educationSum = prev
-      educationSum += parseInt($(curr).html());
+      educationSum += Math.abs(parseInt($(curr).html()));
       return educationSum;
     }, 0)
 
     var otherArray = $('.OtherAmount').toArray();
     otherArray.reduce(function (prev, curr) {
       otherSum = prev
-      otherSum += parseInt($(curr).html());
+      otherSum += Math.abs(parseInt($(curr).html()));
       return otherSum;
     }, 0)
 
