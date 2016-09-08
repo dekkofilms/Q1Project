@@ -49,6 +49,10 @@
     background-color: white;
 }
 
+h1 {
+  color: #000;
+}
+
 h5 {
   color: #ee6e73;
 }
@@ -60,3 +64,7 @@ h5 {
 .btn:active {
   background-color: white;
 }
+
+/*::-webkit-input-placeholder {
+   color: white;
+}*/

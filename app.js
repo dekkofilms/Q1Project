@@ -36,7 +36,7 @@ $(function () {
     	newline: "",	// auto-detect
     	header: true,
     	dynamicTyping: false,
-    	preview: 0,
+    	preview: 2,
     	encoding: "",
     	worker: false,
     	comments: false,
@@ -115,7 +115,7 @@ $(function () {
           var categoryId = initialCategory(charge[i][key]);
           //Creating Dropdown elements
           var $categoryDiv = $('<div class="input-field col s12" class="catDiv">');
-          var $select = $('<select>');
+          var $select = $('<select class="category-target">');
           var $food = $('<option value="food" class="Food">Food</option>');
           var $gas = $('<option value="gas" class="Auto">Auto</option>');
           var $income = $('<option value="income" class="Income">Income</option>');
@@ -193,13 +193,17 @@ $(function () {
 
     $('select').material_select();
     $('#preload').removeClass('active');
-  }
+    $('ul.tabs').tabs('select_tab', nickname);
 
-  //Event listener for the tabs inside of the table
-  // $(document).on("click", 'ul li', function(){
-  //     $('ul li').removeClass('active');
-  //     $(this).addClass('active');
-  // });
+    $('select').change(function (event) {
+      //newClass will === console.log($(this).find(':selected').text());
+      //found the TD element === console.log(event.target.parentNode.parentNode.parentNode.nextSibling);
+      $(event.target.parentNode.parentNode.parentNode.nextSibling).removeClass();
+      $(event.target.parentNode.parentNode.parentNode.nextSibling).addClass($(this).find(':selected').text() + 'Amount')
+
+      $('#show-trend').click();
+    })
+  }
 
   $('ul.tabs').tabs();
 
@@ -209,7 +213,7 @@ $(function () {
 
     var newCanvas = $('#show-trend-results')
     var showResults = new Chart(newCanvas, {
-                                            type: 'horizontalBar',
+                                            type: 'pie',
                                             data: {
                                                 labels: ["Food", "Auto", "Income", "Entertainment", "Education", "Other"],
                                                 datasets: [{
@@ -250,50 +254,52 @@ $(function () {
   function getSums () {
 
     var foodArray = $('.FoodAmount').toArray();
-    foodArray.reduce(function (prev, curr) {
+    foodSum = foodArray.reduce(function (prev, curr) {
       if (parseInt($(curr).html())) {
-        foodSum = prev
-        foodSum += Math.abs(parseInt($(curr).html()));
+        prev += Math.abs(parseInt($(curr).html()));
       }
-      return foodSum;
+      return prev;
     }, 0)
 
+    console.log(foodSum);
+
     var autoArray = $('.AutoAmount').toArray();
-    autoArray.reduce(function (prev, curr) {
-      autoSum = prev
-      autoSum += Math.abs(parseInt($(curr).html()));
-      return autoSum;
+    autoSum = autoArray.reduce(function (prev, curr) {
+      prev += Math.abs(parseInt($(curr).html()));
+      return prev;
     }, 0)
 
     var incomeArray = $('.IncomeAmount').toArray();
-    incomeArray.reduce(function (prev, curr) {
-      incomeSum = prev
-      incomeSum += Math.abs(parseInt($(curr).html()));
-      return incomeSum;
+    incomeSum = incomeArray.reduce(function (prev, curr) {
+      prev += Math.abs(parseInt($(curr).html()));
+      return prev;
     }, 0)
 
     var entertainmentArray = $('.EntertainmentAmount').toArray();
-    entertainmentArray.reduce(function (prev, curr) {
-      entertainmentSum = prev
-      entertainmentSum += Math.abs(parseInt($(curr).html()));
-      return entertainmentSum;
+    entertainmentSum = entertainmentArray.reduce(function (prev, curr) {
+      prev += Math.abs(parseInt($(curr).html()));
+      return prev;
     }, 0)
 
     var educationArray = $('.EducationAmount').toArray();
-    educationArray.reduce(function (prev, curr) {
-      educationSum = prev
-      educationSum += Math.abs(parseInt($(curr).html()));
-      return educationSum;
+    educationSum = educationArray.reduce(function (prev, curr) {
+      prev += Math.abs(parseInt($(curr).html()));
+      return prev;
     }, 0)
 
     var otherArray = $('.OtherAmount').toArray();
-    otherArray.reduce(function (prev, curr) {
-      otherSum = prev
-      otherSum += Math.abs(parseInt($(curr).html()));
-      return otherSum;
+    otherSum = otherArray.reduce(function (prev, curr) {
+      prev += Math.abs(parseInt($(curr).html()));
+      return prev;
     }, 0)
 
   }
+
+  //Event listener for the tabs inside of the table
+  // $(document).on("click", 'ul li', function(){
+  //     $('ul li').removeClass('active');
+  //     $(this).addClass('active');
+  // });
 
 })
 
