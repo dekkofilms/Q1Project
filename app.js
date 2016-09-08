@@ -4,6 +4,8 @@ $(function () {
   var myCategories = {};
   var $submitBtn = $('#submitBtn');
 
+  var foodSum, autoSum, incomeSum, entertainmentSum, educationSum, otherSum;
+
   var newBank = [];
   var nickname;
   $submitBtn.click(function () {
@@ -39,6 +41,50 @@ $(function () {
         var latestEntry = newBank.pop();
 
         createTable(latestEntry);
+
+        console.log(myCategories);
+
+        var foodArray = $('.FoodAmount').toArray();
+        foodArray.reduce(function (prev, curr) {
+          foodSum = prev
+          foodSum += parseInt($(curr).html());
+          return foodSum;
+        }, 0)
+
+        var autoArray = $('.AutoAmount').toArray();
+        autoArray.reduce(function (prev, curr) {
+          autoSum = prev
+          autoSum += parseInt($(curr).html());
+          return autoSum;
+        }, 0)
+
+        var incomeArray = $('.IncomeAmount').toArray();
+        incomeArray.reduce(function (prev, curr) {
+          incomeSum = prev
+          incomeSum += parseInt($(curr).html());
+          return incomeSum;
+        }, 0)
+
+        var entertainmentArray = $('.EntertainmentAmount').toArray();
+        entertainmentArray.reduce(function (prev, curr) {
+          entertainmentSum = prev
+          entertainmentSum += parseInt($(curr).html());
+          return entertainmentSum;
+        }, 0)
+
+        var educationArray = $('.EducationAmount').toArray();
+        educationArray.reduce(function (prev, curr) {
+          educationSum = prev
+          educationSum += parseInt($(curr).html());
+          return educationSum;
+        }, 0)
+
+        var otherArray = $('.OtherAmount').toArray();
+        otherArray.reduce(function (prev, curr) {
+          otherSum = prev
+          otherSum += parseInt($(curr).html());
+          return otherSum;
+        }, 0)
       }
     });
 
@@ -68,14 +114,14 @@ $(function () {
     var $tabbedLink = $('<a href="#' + nickname + '">' + nickname + '</a>');
     var $divForTable = $('<div id="' + nickname + '" class="col s12 overflow"></div>')
 
-
-    entry.data.forEach(function (charge) {
+    var charge = entry.data;
+    for (var i = 0; i < charge.length - 1; i++) {
       //Need a row for each of the charges
       var $newRow = $('<tr>');
 
       //Looping through each property in the charge
       var selectedOption;
-      for (var key in charge) {
+      for (var key in charge[i]) {
         var lowerKey = key.toLowerCase();
 
         //Defining boolean statements for multiple CSV files
@@ -85,14 +131,14 @@ $(function () {
         var categoryBoolean = lowerKey.includes('category');
 
         if (amountBoolean) {
-          var $newAmount = $('<td>' + charge[key] + '</td>');
+          var $newAmount = $('<td>' + charge[i][key] + '</td>');
           // console.log('inside',dollaAmount);
         } else if (descriptionBoolean) {
-          var $newDescription = $('<td>' + charge[key] + '</td>');
+          var $newDescription = $('<td>' + charge[i][key] + '</td>');
         } else if (dateBoolean) {
-          var $newDate = $('<td>' + charge[key] + '</td>');
+          var $newDate = $('<td>' + charge[i][key] + '</td>');
         } else if (categoryBoolean) {
-          var categoryId = initialCategory(charge[key]);
+          var categoryId = initialCategory(charge[i][key]);
           //Creating Dropdown elements
           var $categoryDiv = $('<div class="input-field col s12" class="catDiv">');
           var $select = $('<select>');
@@ -101,7 +147,7 @@ $(function () {
           var $income = $('<option value="income" class="Income">Income</option>');
           var $entertainment = $('<option value="entertainment" class="Entertainment">Entertainment</option>');
           var $education = $('<option value="education" class="Education">Education</option>');
-          var $other = $('<option value="other" class="Other">Other</option>');
+          var $other = $('<option value="other" class="Other" selected>Other</option>');
           var $newCategory = $('<td>');
 
           //Appending dropdown elements
@@ -116,6 +162,7 @@ $(function () {
 
           var match = $select.children('.' + categoryId);
           match.attr('selected', 'selected');
+          $newAmount.addClass(categoryId + 'Amount')
         }
       }
 
@@ -126,13 +173,13 @@ $(function () {
 
       // console.log($newAmount.html());
       // get the inner html for category
-      var amount = parseInt($newAmount.html());
-
-      myCategories[categoryId] = amount + amount;
       // console.log(myCategories);
+      var amount = parseInt($newAmount.html());
+      console.log(amount);
       $tableBody.append($newRow);
-    })
+    }
 
+    myCategories[categoryId] += amount;
     //Appending table together]
     $tableRow.append($dateHeader);
     $tableRow.append($descriptionHeader);
@@ -150,7 +197,7 @@ $(function () {
 
     function initialCategory (value) {
       var lowerCategory = value.toLowerCase();
-      var foundCategory = false;
+      var foundCategory = "Other";
 
       for (var id in categoryObj) {
         var categoryArray = categoryObj[id];
@@ -187,16 +234,17 @@ $(function () {
       var showResults = new Chart(newCanvas, {
                         type: 'horizontalBar',
                         data: {
-                            labels: ["Food", "Auto", "Income", "Entertainment", "Education"],
+                            labels: ["Food", "Auto", "Income", "Entertainment", "Education", "Other"],
                             datasets: [{
                                 label: 'Money Trends',
-                                data: [Math.abs(myCategories.Food), Math.abs(myCategories.Auto), Math.abs(myCategories.Income), Math.abs(myCategories.Entertainment), Math.abs(myCategories.Education)],
+                                data: [foodSum, autoSum, incomeSum, entertainmentSum, educationSum, otherSum],
                                 backgroundColor: [
                                     'rgba(255, 99, 132, 0.2)',
                                     'rgba(54, 162, 235, 0.2)',
                                     'rgba(255, 206, 86, 0.2)',
                                     'rgba(75, 192, 192, 0.2)',
                                     'rgba(153, 102, 255, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
                                 ],
                                 borderColor: [
                                     'rgba(255, 99, 132, 1)',
@@ -204,6 +252,7 @@ $(function () {
                                     'rgba(255, 206, 86, 1)',
                                     'rgba(75, 192, 192, 1)',
                                     'rgba(153, 102, 255, 1)',
+                                    'rgba(54, 162, 235, 1)',
                                 ],
                                 borderWidth: 1
                             }]
@@ -225,7 +274,7 @@ $(function () {
 
 //Object for the categories
 var categoryObj = {
-  'Food' : ['dining', 'food', 'fast food', 'restaurant', 'food & drink'],
+  'Food' : ['dining', 'food', 'fast food', 'restaurant', 'food & drink', 'groceries', 'grocery'],
   'Auto' : ['gas', 'automotive', 'auto'],
   'Income' : ['paycheck', 'income', 'investment', 'financial', 'money', 'reimbursement'],
   'Entertainment' : ['arts', 'music', 'movie', 'culture', 'art'],
