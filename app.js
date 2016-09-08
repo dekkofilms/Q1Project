@@ -211,8 +211,8 @@ $(function () {
 
     getSums();
 
-    var newCanvas = $('#show-trend-results-pie')
-    var showResults = new Chart(newCanvas, {
+    var newPieCanvas = $('#show-trend-results-pie')
+    var showResults = new Chart(newPieCanvas, {
                                             type: 'pie',
                                             data: {
                                                 labels: ["Food", "Auto", "Income", "Entertainment", "Education", "Other"],
@@ -225,7 +225,7 @@ $(function () {
                                                         'rgba(255, 206, 86, 0.2)',
                                                         'rgba(75, 192, 192, 0.2)',
                                                         'rgba(153, 102, 255, 0.2)',
-                                                        'rgba(54, 162, 235, 0.2)',
+                                                        'rgba(0, 0, 0, 0.2)',
                                                     ],
                                                     borderColor: [
                                                         'rgba(255, 99, 132, 1)',
@@ -233,7 +233,7 @@ $(function () {
                                                         'rgba(255, 206, 86, 1)',
                                                         'rgba(75, 192, 192, 1)',
                                                         'rgba(153, 102, 255, 1)',
-                                                        'rgba(54, 162, 235, 1)',
+                                                        'rgba(0, 0, 0, 1)',
                                                     ],
                                                     borderWidth: 1
                                                 }]
@@ -249,6 +249,45 @@ $(function () {
                                             },
                                             responsive : true
                                         });
+
+    var newBarCanvas = $('#show-trend-results-bar')
+    var showResults = new Chart(newBarCanvas, {
+            type: 'bar',
+            data: {
+                labels: ["Food", "Auto", "Income", "Entertainment", "Education", "Other"],
+                datasets: [{
+                    label: 'Money Trends',
+                    data: [foodSum, autoSum, incomeSum, entertainmentSum, educationSum, otherSum],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(0, 0, 0, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(0, 0, 0, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            },
+            responsive : true
+        });
   });
 
   function getSums () {
