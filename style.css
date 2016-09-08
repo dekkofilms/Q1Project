@@ -32,3 +32,19 @@
   height: 500px;
   overflow-y: auto;
 }
+
+.btn, .btn-large, .btn-flat {
+    border: none;
+    border-radius: 2px;
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    outline: 0;
+    padding: 0 2rem;
+    text-transform: uppercase;
+    vertical-align: middle;
+    -webkit-tap-highlight-color: transparent;
+    border: 1px solid #000;
+    color: black;
+    background-color: white;
+}

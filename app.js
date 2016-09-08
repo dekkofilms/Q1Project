@@ -1,5 +1,9 @@
 $(function () {
 
+  var $showTrendBtn = $('<a class="waves-effect waves-light btn-flat">Show Trends</a>');
+  $('#show-trend').append($showTrendBtn);
+  $showTrendBtn.hide();
+
   var latestEntry;
   var myCategories = {};
   var $submitBtn = $('#submitBtn');
@@ -9,6 +13,8 @@ $(function () {
   var newBank = [];
   var nickname;
   $submitBtn.click(function () {
+    $showTrendBtn.show();
+
     //Grabbing nickname
     nickname = $('[name="nickname"]').val();
 
@@ -91,8 +97,6 @@ $(function () {
     this.form.reset()
   });
 
-  var $showTrendBtn = $('<a class="waves-effect waves-light btn">Show Trends</a>');
-  $('#show-trend').append($showTrendBtn);
 
 
 
