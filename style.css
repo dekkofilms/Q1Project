@@ -17,6 +17,7 @@
 .input-field input[type=text].valid {
  border-bottom: 1px solid #000;
  box-shadow: 0 1px 0 0 #000;
+ color: #daad86;
 }
 /* invalid color */
 .input-field input[type=text].invalid {
