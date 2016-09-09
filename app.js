@@ -12,6 +12,12 @@ $(function () {
 
   var newBank = [];
   var nickname;
+
+  $('#no-bank-info').click(function () {
+    console.log("clicked!");
+    $('#csv').click();
+  })
+
   $submitBtn.click(function () {
     $('#no-bank-info').hide();
 
