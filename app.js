@@ -13,6 +13,8 @@ $(function () {
   var newBank = [];
   var nickname;
   $submitBtn.click(function () {
+    $('#no-bank-info').hide();
+
     //Grabbing nickname
     nickname = $('[name="nickname"]').val();
 

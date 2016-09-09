@@ -82,6 +82,12 @@ h1 {
   color: #ee6e73;
 }
 
+.nobank {
+  color: #ee6e73;
+  font-weight: bold;
+  
+}
+
 footer {
   bottom: 0;
 }
