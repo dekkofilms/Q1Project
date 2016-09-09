@@ -44,27 +44,54 @@
     text-transform: uppercase;
     vertical-align: middle;
     -webkit-tap-highlight-color: transparent;
-    border: 1px solid #000;
-    color: black;
+    border: 1px solid #98dafc;
+    color: #98dafc;
     background-color: white;
 }
 
-h1 {
-  color: #000;
-}
-
-h5 {
-  color: #ee6e73;
-}
-
 .btn:hover {
-  background-color: #ee6e73;
+  background-color: #feffff;
 }
 
 .btn:active {
   background-color: white;
 }
 
+body {
+  background-color: #feffff;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+h1 {
+  display: inline-block;
+  border-top: 8px solid #ee6e73;
+  /*text-decoration: overline solid;*/
+  font-weight: bold;
+}
+
+.header {
+  color: #daad86;
+  font-size: 14rem;
+}
+
+
+.subheader {
+  color: #ee6e73;
+}
+
+
 /*::-webkit-input-placeholder {
    color: white;
+}*/
+
+/*.header {
+  background-color: #9ad3de;
+  margin: 0;
+}
+
+.subheader {
+  background-color: #89bdd3;
 }*/
