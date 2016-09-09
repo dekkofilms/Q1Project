@@ -82,16 +82,11 @@ h1 {
   color: #ee6e73;
 }
 
-
-/*::-webkit-input-placeholder {
-   color: white;
-}*/
-
-/*.header {
-  background-color: #9ad3de;
-  margin: 0;
+footer {
+  bottom: 0;
 }
 
-.subheader {
-  background-color: #89bdd3;
-}*/
+
+::-webkit-input-placeholder {
+   color: #daad86;
+}
