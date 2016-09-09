@@ -200,17 +200,15 @@ $(function () {
 
 
     $('select').material_select();
-    $('#preload').removeClass('active');
     $('ul.tabs').tabs('select_tab', nickname);
 
     $('select').change(function (event) {
-      //newClass will === console.log($(this).find(':selected').text());
-      //found the TD element === console.log(event.target.parentNode.parentNode.parentNode.nextSibling);
       $(event.target.parentNode.parentNode.parentNode.nextSibling).removeClass();
       $(event.target.parentNode.parentNode.parentNode.nextSibling).addClass($(this).find(':selected').text() + 'Amount')
-
       $('#show-trend').click();
     })
+
+    $('#preload').removeClass('active');
   }
 
   $('ul.tabs').tabs();
