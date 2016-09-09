@@ -25,7 +25,7 @@ $(function () {
     nickname = $('[name="nickname"]').val();
 
     if (!nickname) {
-      alert('Please enter a nickname for your bank!');
+      Materialize.toast('Please enter a bank name', 4000, 'toastbox')
       return;
     }
 

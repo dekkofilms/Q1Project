@@ -88,6 +88,11 @@ h1 {
   font-size: 2rem;
 }
 
+.toastbox {
+  background-color: #ee6e73;
+  color: white;
+}
+
 footer {
   bottom: 0;
 }
